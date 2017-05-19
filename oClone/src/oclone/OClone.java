@@ -6,6 +6,7 @@
 package oclone;
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.List;
 import org.jdom2.Document;
@@ -21,7 +22,8 @@ public class OClone {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) throws JDOMException, IOException {
+    
+    public static void main(String[] args) throws JDOMException, IOException, ClassNotFoundException, SQLException {
         // TODO code application logic here
         System.out.println("eu");
         File f = new File("C:\\Users\\labin\\Documents\\NetBeansProjects\\Xxt\\clientes.xml");
@@ -32,13 +34,16 @@ public class OClone {
         List cidades = root.getChildren();
         System.out.println("" + cidades.size());
         Iterator i = cidades.iterator();
-
+        InserirBD ins = new InserirBD();
+        
         while (i.hasNext()) {
+            ins.abreConexao();
             Element cidade = (Element) i.next();
             System.out.println("codigo: " + cidade.getAttributeValue("codigo"));
             System.out.println("nome: " + cidade.getAttributeValue("nome"));
             System.out.println("uf: " + cidade.getAttributeValue("uf"));
             
+            ins.insereCidade(Integer.parseInt(cidade.getAttributeValue("codigo")), cidade.getAttributeValue("nome"), cidade.getAttributeValue("uf"));
             List clientes = cidade.getChildren();
             Iterator c = clientes.iterator();
             while (c.hasNext()) {
@@ -46,7 +51,9 @@ public class OClone {
                 System.out.println("matricula: " + cliente.getChildText("matricula"));
                 System.out.println("nome: " + cliente.getChildText("nome"));
                 System.out.println("nascimento: " + cliente.getChildText("nascimento"));
+                ins.insereCliente(Integer.parseInt(cliente.getChildText("matricula")), cliente.getChildText("nome"), cliente.getChildText("nascimento"));
             }
+            ins.fechaConexao();
         }
     }
     
