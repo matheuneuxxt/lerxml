@@ -26,7 +26,7 @@ public class OClone {
     public static void main(String[] args) throws JDOMException, IOException, ClassNotFoundException, SQLException {
         // TODO code application logic here
         System.out.println("eu");
-        File f = new File("C:\\Users\\labin\\Documents\\NetBeansProjects\\Xxt\\clientes.xml");
+        File f = new File("C:\\Users\\labin\\Documents\\NetBeansProjects\\lerxml\\clientes.xml");
         System.out.println("" + f.exists());
         SAXBuilder builder = new SAXBuilder();
         Document doc = builder.build(f);
